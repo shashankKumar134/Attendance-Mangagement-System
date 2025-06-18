@@ -9,6 +9,8 @@ import AdminPanel from './pages/AdminPanel';
 import Navbar from './components/Navbar'; // ✅ Import Navbar
 import CalendarPage from './pages/CalendarPage';
 
+
+
 function App() {
   const { user } = useContext(AuthContext);
 
@@ -18,10 +20,10 @@ function App() {
 
       <Routes>
         <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />}/>
         <Route path="/calendar" element={user ? <CalendarPage /> : <Navigate to="/login" />} />
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
         <Route path="/monthly-report" element={user ? <MonthlyReport /> : <Navigate to="/login" />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/admin" element={user?.role === 'admin' ? <AdminPanel /> : <Navigate to="/" />} />
       </Routes>
     </>
