@@ -1,0 +1,26 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.react-calendar {
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.present-day {
+  background-color: #c6f6d5 !important;
+  border-radius: 50%;
+}
+
+.half-day {
+  background-color: #fefcbf !important;
+  border-radius: 50%;
+}
+
+tr.underworked {
+  background-color: #ffe5e5;
+}
