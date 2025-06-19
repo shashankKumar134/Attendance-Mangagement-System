@@ -1,6 +1,6 @@
 A simple attendance management system,
 
-Here is the working link - https://attendance-mangagement-system.vercel.app/login
+Here is the working link - https://attendance-mangagement-system.vercel.app
 
 ![Screenshot 2025-06-19 140225](https://github.com/user-attachments/assets/2dda6ae3-f16b-4b01-a7c7-4a7bd22ad764)
 
