@@ -56,51 +56,72 @@ function AdminPanel() {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Admin Panel</h2>
-      <p>Welcome, {user?.name}</p>
-      <button onClick={logout} style={{ marginBottom: '1rem' }}>Logout</button>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-6xl mx-auto bg-white p-6 rounded-2xl shadow-md">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800">🛠️ Admin Panel</h2>
+            <p className="text-gray-600">Welcome, {user?.name}</p>
+          </div>
+          <button
+            onClick={logout}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </div>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p className="text-red-600 font-medium mb-4">{error}</p>}
 
-      <div style={{ marginBottom: '1rem' }}>
-        <input
-          type="text"
-          placeholder="Search by name, email or date"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ padding: '0.5rem', width: '300px' }}
-        />
-        <button onClick={exportCSV} style={{ marginLeft: '1rem' }}>
-          Export CSV
-        </button>
+        <div className="flex flex-wrap items-center gap-4 mb-6">
+          <input
+            type="text"
+            placeholder="Search by name, email or date"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border px-4 py-2 rounded-lg shadow-sm w-full sm:w-96"
+          />
+          <button
+            onClick={exportCSV}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Export CSV
+          </button>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full border border-gray-300 rounded-lg overflow-hidden">
+            <thead className="bg-gray-200 text-left">
+              <tr>
+                <th className="px-4 py-2 border">Name</th>
+                <th className="px-4 py-2 border">Email</th>
+                <th className="px-4 py-2 border">Date</th>
+                <th className="px-4 py-2 border">Check-In</th>
+                <th className="px-4 py-2 border">Check-Out</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredRecords.map((record) => (
+                <tr key={record._id} className="bg-white border-t text-gray-700">
+                  <td className="px-4 py-2 border">{record.userId?.name || '—'}</td>
+                  <td className="px-4 py-2 border">{record.userId?.email || '—'}</td>
+                  <td className="px-4 py-2 border">{record.date}</td>
+                  <td className="px-4 py-2 border">{record.checkIn || '—'}</td>
+                  <td className="px-4 py-2 border">{record.checkOut || '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {filteredRecords.length === 0 && (
+          <p className="text-center text-gray-500 mt-6">No attendance records found.</p>
+        )}
       </div>
-
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Date</th>
-            <th>Check-In</th>
-            <th>Check-Out</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredRecords.map(record => (
-            <tr key={record._id}>
-              <td>{record.userId?.name || '—'}</td>
-              <td>{record.userId?.email || '—'}</td>
-              <td>{record.date}</td>
-              <td>{record.checkIn || '—'}</td>
-              <td>{record.checkOut || '—'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }
 
 export default AdminPanel;
+
 

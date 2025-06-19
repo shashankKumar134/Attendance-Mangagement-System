@@ -83,82 +83,99 @@ function MonthlyReport() {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>📅 Monthly Report</h2>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow-md">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">📅 Monthly Report</h2>
 
-      <div style={{ marginBottom: '1rem' }}>
-        {user.role === 'admin' && (
-          <>
-            <label>Select Employee: </label>
-            <select
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-              style={{ marginRight: '1rem' }}
+        <div className="flex flex-wrap gap-4 mb-6 items-center">
+          {user.role === 'admin' && (
+            <div>
+              <label className="block text-sm font-medium mb-1">Select Employee</label>
+              <select
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+                className="border px-3 py-2 rounded-lg bg-white shadow-sm"
+              >
+                <option value="" disabled>Select</option>
+                {users.map((u) => (
+                  <option key={u._id} value={u._id}>
+                    {u.name} ({u.email})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Select Month</label>
+            <input
+              type="month"
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              className="border px-3 py-2 rounded-lg shadow-sm"
+            />
+          </div>
+
+          <div className="mt-6 md:mt-0">
+            <button
+              onClick={exportCSV}
+              className="mt-6 md:mt-0 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
             >
-              <option value="" disabled>Select</option>
-              {users.map((u) => (
-                <option key={u._id} value={u._id}>
-                  {u.name} ({u.email})
-                </option>
-              ))}
-            </select>
-          </>
-        )}
+              Export CSV
+            </button>
+          </div>
+        </div>
 
-        <label>Select Month: </label>
-        <input
-          type="month"
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-        />
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold mb-2">📊 Summary</h3>
+          <ul className="list-disc ml-6 text-gray-700 space-y-1">
+            <li>Total Days Marked: {summary.total}</li>
+            <li>Full Days (In & Out): {summary.fullDays}</li>
+            <li>Half Days (Only In): {summary.halfDays}</li>
+            <li>Total Worked Hours: {summary.totalHours}</li>
+          </ul>
+        </div>
 
-        <button onClick={exportCSV} style={{ marginLeft: '1rem' }}>
-          Export CSV
-        </button>
+        <div>
+          <h3 className="text-xl font-semibold mb-4">📋 Attendance Details</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border border-gray-300 rounded-lg overflow-hidden">
+              <thead className="bg-gray-200 text-left">
+                <tr>
+                  <th className="px-4 py-2 border">Date</th>
+                  <th className="px-4 py-2 border">Check-In</th>
+                  <th className="px-4 py-2 border">Check-Out</th>
+                  <th className="px-4 py-2 border">Worked Hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                {attendance.map(record => {
+                  let duration = '—';
+                  if (record.checkIn && record.checkOut) {
+                    const start = moment(record.checkIn, 'HH:mm');
+                    const end = moment(record.checkOut, 'HH:mm');
+                    const diff = moment.duration(end.diff(start));
+                    duration = `${Math.floor(diff.asHours())}h ${diff.minutes()}m`;
+                  }
+
+                  return (
+                    <tr key={record._id} className="bg-white border-t text-gray-700">
+                      <td className="px-4 py-2 border">{record.date}</td>
+                      <td className="px-4 py-2 border">{record.checkIn || '—'}</td>
+                      <td className="px-4 py-2 border">{record.checkOut || '—'}</td>
+                      <td className="px-4 py-2 border">{duration}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-
-      <h3>📊 Summary</h3>
-      <ul>
-        <li>Total Days Marked: {summary.total}</li>
-        <li>Full Days (In & Out): {summary.fullDays}</li>
-        <li>Half Days (Only In): {summary.halfDays}</li>
-        <li>Total Worked Hours: {summary.totalHours}</li>
-      </ul>
-
-      <h3>📋 Attendance Details</h3>
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Check-In</th>
-            <th>Check-Out</th>
-            <th>Worked Hours</th>
-          </tr>
-        </thead>
-        <tbody>
-          {attendance.map(record => {
-            let duration = '—';
-            if (record.checkIn && record.checkOut) {
-              const start = moment(record.checkIn, 'HH:mm');
-              const end = moment(record.checkOut, 'HH:mm');
-              const diff = moment.duration(end.diff(start));
-              duration = `${Math.floor(diff.asHours())}h ${diff.minutes()}m`;
-            }
-
-            return (
-              <tr key={record._id}>
-                <td>{record.date}</td>
-                <td>{record.checkIn || '—'}</td>
-                <td>{record.checkOut || '—'}</td>
-                <td>{duration}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
     </div>
   );
 }
 
 export default MonthlyReport;
+
 

@@ -1,0 +1,21 @@
+/* calendarStyles.css */
+
+.present-day {
+  background-color: #c6f6d5 !important; /* Green */
+  border-radius: 50% !important;
+  color: #22543d !important;
+  font-weight: bold;
+}
+
+.half-day {
+  background-color: #fefcbf !important; /* Yellow */
+  border-radius: 50% !important;
+  color: #744210 !important;
+  font-weight: bold;
+}
+
+/* Optional: remove focus ring around active day */
+.react-calendar__tile:focus {
+  outline: none;
+  box-shadow: none;
+}

@@ -75,56 +75,88 @@ function Dashboard() {
   }, []);
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Welcome, {user.name}</h2>
-      <p>Role: {user.role}</p>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-5xl mx-auto bg-white shadow-xl rounded-2xl p-6">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800">Welcome, {user.name}</h2>
+            <p className="text-gray-600">Role: {user.role}</p>
+          </div>
+          <button
+            onClick={logout}
+            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        </div>
 
-      <button onClick={() => handleAction('checkin')}>Check In</button>
-      <button onClick={() => handleAction('checkout')} style={{ marginLeft: '10px' }}>
-        Check Out
-      </button>
-      <button onClick={logout} style={{ marginLeft: '10px' }}>Logout</button>
+        <div className="flex gap-4 flex-wrap mb-4">
+          <button
+            onClick={() => handleAction('checkin')}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Check In
+          </button>
+          <button
+            onClick={() => handleAction('checkout')}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+          >
+            Check Out
+          </button>
+        </div>
 
-      {message && <p style={{ color: 'green', marginTop: '1rem' }}>{message}</p>}
+        {message && (
+          <div className="mb-4 text-green-600 font-semibold">{message}</div>
+        )}
 
-      <h3 style={{ marginTop: '2rem' }}>📊 Monthly Summary (This Month)</h3>
-      <ul>
-        <li>Total Days Marked: {summary.total}</li>
-        <li>Full Days (In & Out): {summary.fullDays}</li>
-        <li>Half Days (Only In): {summary.halfDays}</li>
-      </ul>
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold mb-2">📊 Monthly Summary (This Month)</h3>
+          <ul className="list-disc ml-6 text-gray-700 space-y-1">
+            <li>Total Days Marked: {summary.total}</li>
+            <li>Full Days (In & Out): {summary.fullDays}</li>
+            <li>Half Days (Only In): {summary.halfDays}</li>
+          </ul>
+        </div>
 
-      <h3 style={{ marginTop: '2rem' }}>Attendance Records</h3>
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Check-In</th>
-            <th>Check-Out</th>
-            <th>Worked Hours</th>
-          </tr>
-        </thead>
-        <tbody>
-          {attendance.map((record) => {
-            const underworked = isUnderWorked(record.checkIn, record.checkOut);
-            return (
-              <tr
-                key={record._id}
-                style={{ backgroundColor: underworked ? '#ffe5e5' : 'transparent' }}
-              >
-                <td>{moment(record.date).format('YYYY-MM-DD')}</td>
-                <td>{record.checkIn || '—'}</td>
-                <td>{record.checkOut || '—'}</td>
-                <td>{calculateWorkedHours(record.checkIn, record.checkOut)}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+        <div>
+          <h3 className="text-xl font-semibold mb-4">📅 Attendance Records</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border border-gray-300 rounded-lg overflow-hidden">
+              <thead className="bg-gray-200 text-left">
+                <tr>
+                  <th className="px-4 py-2 border">Date</th>
+                  <th className="px-4 py-2 border">Check-In</th>
+                  <th className="px-4 py-2 border">Check-Out</th>
+                  <th className="px-4 py-2 border">Worked Hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                {attendance.map((record) => {
+                  const underworked = isUnderWorked(record.checkIn, record.checkOut);
+                  return (
+                    <tr
+                      key={record._id}
+                      className={`text-gray-800 ${underworked ? 'bg-red-100' : 'bg-white'} border-t`}
+                    >
+                      <td className="px-4 py-2 border">{moment(record.date).format('YYYY-MM-DD')}</td>
+                      <td className="px-4 py-2 border">{record.checkIn || '—'}</td>
+                      <td className="px-4 py-2 border">{record.checkOut || '—'}</td>
+                      <td className="px-4 py-2 border">
+                        {calculateWorkedHours(record.checkIn, record.checkOut)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default Dashboard;
+
 
 
