@@ -22,8 +22,10 @@ function Login() {
   };
 
   return (
+    
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center mb-6">Attendance Manager</h1>
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
         
         {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
@@ -59,6 +61,16 @@ function Login() {
             Register here
           </Link>
         </p>
+
+        <div className="mt-6 p-4 bg-gray-100 rounded text-sm text-gray-700">
+          <p className="font-semibold mb-2">Test Logins:</p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>🔒 <strong>Admin:</strong> admin@example.com / 123456</li>
+            <li>👷 <strong>Employee:</strong> alice@example.com / 123456</li>
+            <li>👨‍💻 <strong>Employee:</strong> bob@example.com / 123456</li>
+          </ul>
+        </div>
+
       </div>
     </div>
   );
